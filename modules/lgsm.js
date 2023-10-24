@@ -1,8 +1,19 @@
 const execSync = require('child_process').execSync;
 const os = require('os');
 const {lgsm_user,lgsm_bin,lgsm_config} = require('../config.json');
+const {EmbedBuilder} = require('discord.js')
 
-async function lgsmSendCommand(lgsm_args){
+function getOptions(options){
+	if (options === undefined){
+		options = {interaction: undefined};
+	}
+	else {
+		if (!('interaction' in options)) options['interaction'] = undefined;
+	}
+	return options;
+}
+
+async function lgsmSendCommand(lgsm_args, options = undefined){
 	const shell_command = `${lgsm_bin} ${lgsm_args}`;
 	console.log(`LGSM command is ${shell_command}`);
 	let lgsm_output = "";
@@ -11,6 +22,21 @@ async function lgsmSendCommand(lgsm_args){
 	} catch (error) {
 		console.error(error);
 		lgsm_output = "Error";
+	}
+	options = getOptions(options);
+	if (options.interaction !== undefined)
+	{
+		const Embed = new EmbedBuilder();
+		Embed.addFields(
+			{
+				name: `LGSM ${lgsm_args} output`,
+				value: "```"+os.EOL+lgsm_output+os.EOL+"```",
+			}
+		);
+		await options.interaction.editReply({
+			embeds: [Embed],
+			ephemeral: true
+		});
 	}
 	return lgsm_output;
 }

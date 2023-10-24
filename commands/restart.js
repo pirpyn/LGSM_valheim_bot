@@ -20,23 +20,6 @@ module.exports = {
 			fetchReply: true,
 			ephemeral: true
 		});
-		await LGSM.lgsmSendCommand("restart");
-		const commandOutput = await LGSM.lgsmSendCommand("restart");
-		const Embed = new EmbedBuilder()
-		.setAuthor({
-			name: `Redémarrage`,
-			iconURL: client.user.avatarURL()
-		})
-		.addFields(
-			{
-				name: 'Console',
-				value: "```"+os.EOL+`${commandOutput}`+os.EOL+"```",
-				inline: true
-			}
-		);
-		await interaction.editReply({
-			embeds: [Embed],
-			ephemeral: true
-		})
+		await LGSM.lgsmSendCommand("restart",{interaction: interaction});
 	}
 }
