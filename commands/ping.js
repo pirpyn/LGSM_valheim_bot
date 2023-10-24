@@ -8,12 +8,12 @@ module.exports = {
 		options: []
 	},
 	// et tout ça, c'est la logique de la commande
-	async execute(interaction, client) {
+	async execute(interaction) {
 		// Par exemple là on créée un embed avec EmbedBuilder de discord.js
 		// On lui ajoute un name et iconURL, et on va par la suite le modifier avec les valeurs.
 		const PingBeforeEmbed = new EmbedBuilder().setAuthor({
 			name: `L'oiseau va revenir avec le ping du robot...`,
-			iconURL: client.user.avatarURL()
+			iconURL: interaction.client.user.avatarURL()
 		})
 		const sent = await interaction.reply({
 			embeds: [PingBeforeEmbed],
@@ -23,8 +23,8 @@ module.exports = {
 		const TotalPing = sent.createdTimestamp - interaction.createdTimestamp
 		const PingEmbed = new EmbedBuilder()
 		.setAuthor({
-			name: `Le ping de ${client.user.username}`,
-			iconURL: client.user.avatarURL()
+			name: `Le ping de ${interaction.client.user.username}`,
+			iconURL: interaction.client.user.avatarURL()
 		})
 		.addFields({
 			name: 'Total du ping',
@@ -33,7 +33,7 @@ module.exports = {
 		},
 		{
 			name: 'Websocket',
-			value: `${client.ws.ping} ms`,
+			value: `${interaction.client.ws.ping} ms`,
 			inline: true
 		})
 		await interaction.editReply({

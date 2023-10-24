@@ -1,5 +1,5 @@
 /**
-	@document    discord_bot.js
+	@document    app.js
 	@author      Pierre Payen
 	@version     1.0.0
 	@copyright   2023, Pierre Payen
@@ -46,28 +46,6 @@ for (const file of eventFiles) {
 		client.on(event.name, (...args) => event.execute(...args, client))
 	}
 }
-
-client.on('interactionCreate', async (interaction) => {
-	if (!interaction.isCommand()) return
-	const command = client.commands.get(interaction.commandName)
-	if (!command) return
-	// On log quand un utilisateur fait une commande
-	try {
-		console.log(
-			`/${interaction.commandName} - Par ${interaction.user.username}`
-		)
-		await command.execute(interaction, client)
-		// Mais s'il y a une erreur, 
-		// alors on log ça et on renvoi un message d'erreur seulement à la personne (ephemeral: true)
-	} catch (error) {
-		console.error(error)
-		return interaction.reply({
-			content: "Une erreur s'est produite lors de l'exécution de cette commande !",
-			ephemeral: true,
-			fetchReply: true
-		})
-	}
-})
 
 const config = require('./config.json');
 client.login(config.token);

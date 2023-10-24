@@ -9,13 +9,13 @@ module.exports = {
 		description: `Redémarrer le serveur`,
 		options: []
 	},
-	async execute(interaction, client) {
+	async execute(interaction) {
 		// On lui ajoute un name et iconURL, et on va par la suite le modifier avec les valeurs.
 		const BeforeEmbed = new EmbedBuilder().setAuthor({
 			name: `Redémarrage...`,
-			iconURL: client.user.avatarURL()
+			iconURL: interaction.client.user.avatarURL()
 		})
-		const sent = await interaction.reply({
+		await interaction.reply({
 			embeds: [BeforeEmbed],
 			fetchReply: true,
 			ephemeral: true

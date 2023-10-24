@@ -9,11 +9,11 @@ module.exports = {
 		description: `Informations détaillées du serveur`,
 		options: []
 	},
-	async execute(interaction, client) {
+	async execute(interaction) {
 		// On lui ajoute un name et iconURL, et on va par la suite le modifier avec les valeurs.
 		const BeforeEmbed = new EmbedBuilder().setAuthor({
 			name: `Requête...`,
-			iconURL: client.user.avatarURL()
+			iconURL: interaction.client.user.avatarURL()
 		})
 		const sent = await interaction.reply({
 			embeds: [BeforeEmbed],
@@ -30,7 +30,7 @@ module.exports = {
 			Embed.addFields(
 				{
 					name: `${key}`,
-					value: "```" + os.EOL + `${value}` + os.EOL + "```",
+					value: "```" + os.EOL + value + os.EOL + "```",
 				}
 			);
 			embeds.push(Embed);
