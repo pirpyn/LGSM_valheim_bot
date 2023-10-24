@@ -1,17 +1,23 @@
 const execSync = require('child_process').execSync;
 const os = require('os');
-const config = require('../config.json');
+const {lgsm_user,lgsm_bin,lgsm_config} = require('../config.json');
 
-async function lgsmSendCommand(lgsm_args, lgsm_bin = config.lgsm_bin){
+async function lgsmSendCommand(lgsm_args){
 	const shell_command = `${lgsm_bin} ${lgsm_args}`;
 	console.log(`LGSM command is ${shell_command}`);
-	const lgsm_output= execSync(shell_command);
+	let lgsm_output = "";
+	try {
+		lgsm_output = execSync(shell_command).toString();
+	} catch (error) {
+		console.error(error);
+		lgsm_output = "Error";
+	}
 	return lgsm_output;
 }
 
-async function lgsmGetDetails(lgsm_bin = config.lgsm_bin){
-	const lgsm_output = await lgsmSendCommand('details',lgsm_bin);
-	const commandOutputStrings = lgsm_output.toString().split(os.EOL);
+async function lgsmGetDetails(){
+	const lgsm_output = await lgsmSendCommand('details');
+	const commandOutputStrings = lgsm_output.split(os.EOL);
 	let detailsDict = {};
 	let idx = 0;
 	let block_names = [
@@ -20,7 +26,7 @@ async function lgsmGetDetails(lgsm_bin = config.lgsm_bin){
 		"Server Resource",
 		"Game Server Resource Usage",
 		"Valheim Server Details",
-		config.lgsm_user+" Script Details",
+		lgsm_user+" Script Details",
 		"Backups",
 		"Command-line Parameters",
 		"Ports"
@@ -46,7 +52,7 @@ async function lgsmGetDetails(lgsm_bin = config.lgsm_bin){
 				|| line.includes("Internet IP")
 				|| line.includes("Hostname")
 				|| line.includes("Storage")
-				|| line.includes(config.lgsm_user)
+				|| line.includes(lgsm_user)
 
 			){
 				continue;

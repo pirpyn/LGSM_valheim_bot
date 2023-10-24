@@ -19,8 +19,8 @@ module.exports = {
 			embeds: [BeforeEmbed],
 			fetchReply: true,
 			ephemeral: true
-		})
-		
+		});
+		await LGSM.lgsmSendCommand("restart");
 		const commandOutput = await LGSM.lgsmSendCommand("restart");
 		const Embed = new EmbedBuilder()
 		.setAuthor({
