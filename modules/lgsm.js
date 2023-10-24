@@ -67,6 +67,31 @@ function lgsmGetMaps(){
 	return maps;
 }
 
+async function lgsmCreateMap(name,description,password){
+	const map_file = path.join(lgsm_config,name) + ".cfg";
+	try {
+		fs.writeFileSync(
+			map_file,
+`
+servername="${description}"
+worldname="${name}"
+`,
+			{ flag: 'wx' }
+		);
+		if (password !== null)
+			fs.writeFileSync(
+				map_file,
+`serverpassword="${password}"
+`,
+			{ flag: 'a' }
+		);
+		return `${name}: ${description} crée`;
+	} catch (err) {
+		console.error(err);
+		return `${name} existe déjà`;
+	}
+}
+
 async function lgsmSwitchMaps(new_map, options = undefined){
 	const instance_file = path.join(lgsm_config,lgsm_user + ".cfg");
 	const map_file = path.join(lgsm_config,new_map) + ".cfg";
@@ -160,5 +185,6 @@ module.exports = {
 	lgsmSendCommand,
 	lgsmGetDetails,
 	lgsmGetMaps,
-	lgsmSwitchMaps
+	lgsmSwitchMaps,
+	lgsmCreateMap
 }
