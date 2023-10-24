@@ -3,6 +3,9 @@ const os = require('os');
 const {lgsm_user,lgsm_bin,lgsm_config} = require('../config.json');
 const {EmbedBuilder} = require('discord.js')
 
+const fs = require('fs');
+const path = require('path');
+
 function getOptions(options){
 	if (options === undefined){
 		options = {interaction: undefined};
@@ -39,6 +42,40 @@ async function lgsmSendCommand(lgsm_args, options = undefined){
 		});
 	}
 	return lgsm_output;
+}
+
+function lgsmGetMaps(){
+	const lgsm_config_files = fs
+		.readdirSync(lgsm_config)
+		.filter((file) => file.endsWith('.cfg'))
+		.map((string) => string.replace('.cfg',''));
+
+	// console.log(lgsm_config_files);
+	const maps = lgsm_config_files.filter((file) => {
+		switch (file) {
+			case "_default":
+			case "example":
+			case "common":
+			case "secrets-common":
+			case `secrets-${lgsm_user}`:
+			case `${lgsm_user}`:
+				return false;
+			default:
+				return true;
+		}
+	});
+	return maps;
+}
+
+async function lgsmSwitchMaps(new_map, options = undefined){
+	const instance_file = path.join(lgsm_config,lgsm_user + ".cfg");
+	const map_file = path.join(lgsm_config,new_map) + ".cfg";
+	let output = "";
+
+	output += await lgsmSendCommand("stop",options);
+	output += execSync(`rm ${instance_file} && ln -s ${map_file} ${instance_file}`);
+	output += await lgsmSendCommand("start",options);
+	return output;
 }
 
 async function lgsmGetDetails(){
@@ -121,5 +158,7 @@ CheckInstall();
 
 module.exports = {
 	lgsmSendCommand,
-	lgsmGetDetails
+	lgsmGetDetails,
+	lgsmGetMaps,
+	lgsmSwitchMaps
 }
