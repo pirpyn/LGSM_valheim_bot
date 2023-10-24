@@ -1,5 +1,5 @@
 const {EmbedBuilder} = require('discord.js')
-const getServerStatus = require('../modules/gamedig')
+const gamedigGetStatus = require('../modules/gamedig')
 
 module.exports = {
 	data: {
@@ -19,7 +19,7 @@ module.exports = {
 			ephemeral: true
 		})
 
-		const serverStatus = await getServerStatus();
+		const serverStatus = await gamedigGetStatus();
 		const Embed = new EmbedBuilder();
 		Embed.setAuthor({
 			name: `Status @${serverStatus.host}`,
