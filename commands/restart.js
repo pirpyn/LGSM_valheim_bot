@@ -10,7 +10,6 @@ module.exports = {
 		options: []
 	},
 	async execute(interaction) {
-		// On lui ajoute un name et iconURL, et on va par la suite le modifier avec les valeurs.
 		const BeforeEmbed = new EmbedBuilder().setAuthor({
 			name: `Redémarrage...`,
 			iconURL: interaction.client.user.avatarURL()

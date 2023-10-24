@@ -28,7 +28,6 @@ module.exports = {
 		);
 	},
 	async execute(interaction) {
-		// On lui ajoute un name et iconURL, et on va par la suite le modifier avec les valeurs.
 		const BeforeEmbed = new EmbedBuilder().setAuthor({
 			name: `Changement de map...`,
 			iconURL: interaction.client.user.avatarURL()
@@ -36,7 +35,7 @@ module.exports = {
 		await interaction.reply({
 			embeds: [BeforeEmbed],
 			fetchReply: true,
-			ephemeral: true
+			ephemeral: false
 		})
 		const map = interaction.options.getString('map');
 		const status = await LGSM.lgsmSwitchMaps(map,{interaction:interaction});
