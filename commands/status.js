@@ -35,7 +35,8 @@ module.exports = {
 					value: `${serverStatus.players}`,
 					inline: true
 				},
-			)
+			);
+			Embed.setColor('Green');
 		}
 		else {
 			Embed.addFields(
@@ -45,6 +46,7 @@ module.exports = {
 					inline: true
 				},
 			);
+			Embed.setColor('Red');
 		}
 		await interaction.editReply({
 			embeds: [Embed]

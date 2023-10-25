@@ -32,6 +32,7 @@ module.exports = {
 					value: "```" + os.EOL + value + os.EOL + "```",
 				}
 			);
+			Embed.setColor('Blue');
 			embeds.push(Embed);
 		};
 		await interaction.editReply({

@@ -20,11 +20,13 @@ async function SendCommand(lgsm_args, options = undefined){
 	const shell_command = `${lgsm_bin} ${lgsm_args}`;
 	console.log(`LGSM command is ${shell_command}`);
 	let lgsm_output = "";
+	let color = 'Green';
 	try {
 		lgsm_output = execSync(shell_command).toString();
 	} catch (error) {
 		console.error(error);
 		lgsm_output = "Error";
+		color = 'Red';
 	}
 	options = getOptions(options);
 	if (options.interaction !== undefined)
@@ -36,6 +38,7 @@ async function SendCommand(lgsm_args, options = undefined){
 				value: "```"+os.EOL+lgsm_output+os.EOL+"```",
 			}
 		);
+		Embed.setColor(color);
 		await options.interaction.editReply({
 			embeds: [Embed]
 		});
