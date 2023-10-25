@@ -21,7 +21,7 @@ module.exports = {
 	async autocomplete(interaction) {
 		console.log("autocomplete");
 		const focusedValue = interaction.options.getFocused();
-		const choices = LGSM.lgsmGetMaps();
+		const choices = LGSM.GetMaps();
 		const filtered = choices.filter(choice => choice.startsWith(focusedValue));
 		await interaction.respond(
 			filtered.map(choice => ({ name: choice, value: choice })),
@@ -38,7 +38,7 @@ module.exports = {
 			ephemeral: false
 		})
 		const map = interaction.options.getString('map');
-		const status = await LGSM.lgsmSwitchMaps(map,{interaction:interaction});
+		const status = await LGSM.SwitchMaps(map,{interaction:interaction});
 		const Embed = new EmbedBuilder();
 		Embed.addFields(
 			{

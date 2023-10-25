@@ -16,7 +16,7 @@ function getOptions(options){
 	return options;
 }
 
-async function lgsmSendCommand(lgsm_args, options = undefined){
+async function SendCommand(lgsm_args, options = undefined){
 	const shell_command = `${lgsm_bin} ${lgsm_args}`;
 	console.log(`LGSM command is ${shell_command}`);
 	let lgsm_output = "";
@@ -44,7 +44,7 @@ async function lgsmSendCommand(lgsm_args, options = undefined){
 	return lgsm_output;
 }
 
-function lgsmGetMaps(){
+function GetMaps(){
 	const lgsm_config_files = fs
 		.readdirSync(lgsm_config)
 		.filter((file) => file.endsWith('.cfg'))
@@ -67,7 +67,7 @@ function lgsmGetMaps(){
 	return maps;
 }
 
-async function lgsmCreateMap(name,description,password){
+async function CreateMap(name,description,password){
 	const map_file = path.join(lgsm_config,name) + ".cfg";
 	try {
 		fs.writeFileSync(
@@ -92,19 +92,19 @@ worldname="${name}"
 	}
 }
 
-async function lgsmSwitchMaps(new_map, options = undefined){
+async function SwitchMaps(new_map, options = undefined){
 	const instance_file = path.join(lgsm_config,lgsm_user + ".cfg");
 	const map_file = path.join(lgsm_config,new_map) + ".cfg";
 	let output = "";
 
-	output += await lgsmSendCommand("stop",options);
+	output += await SendCommand("stop",options);
 	output += execSync(`rm ${instance_file} && ln -s ${map_file} ${instance_file}`);
-	output += await lgsmSendCommand("start",options);
+	output += await SendCommand("start",options);
 	return output;
 }
 
-async function lgsmGetDetails(){
-	const lgsm_output = await lgsmSendCommand('details');
+async function GetDetails(){
+	const lgsm_output = await SendCommand('details');
 	const commandOutputStrings = lgsm_output.split(os.EOL);
 	let detailsDict = {};
 	let idx = 0;
@@ -182,9 +182,9 @@ function CheckInstall(){
 CheckInstall();
 
 module.exports = {
-	lgsmSendCommand,
-	lgsmGetDetails,
-	lgsmGetMaps,
-	lgsmSwitchMaps,
-	lgsmCreateMap
+	SendCommand,
+	GetDetails,
+	GetMaps,
+	SwitchMaps,
+	CreateMap
 }

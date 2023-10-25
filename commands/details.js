@@ -21,7 +21,7 @@ module.exports = {
 		})
 		
 		let embeds = [];
-		const detailsDict = await LGSM.lgsmGetDetails();
+		const detailsDict = await LGSM.GetDetails();
 
 		// console.log(detailsDict);
 		for (const [key, value] of Object.entries(detailsDict)) {
@@ -35,8 +35,7 @@ module.exports = {
 			embeds.push(Embed);
 		};
 		await interaction.editReply({
-			embeds: embeds,
-			ephemeral: true
+			embeds: embeds
 		})
 	}
 }

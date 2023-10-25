@@ -42,7 +42,7 @@ module.exports = {
 		const desc = interaction.options.getString('description');
 		const pass = interaction.options.getString('password');
 		const Embed = new EmbedBuilder();
-		const output = await LGSM.lgsmCreateMap(name,desc,pass);
+		const output = await LGSM.CreateMap(name,desc,pass);
 		Embed.addFields(
 			{
 				name: 'Création de map',

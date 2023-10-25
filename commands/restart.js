@@ -19,6 +19,6 @@ module.exports = {
 			fetchReply: true,
 			ephemeral: true
 		});
-		await LGSM.lgsmSendCommand("restart",{interaction: interaction});
+		await LGSM.SendCommand("restart",{interaction: interaction});
 	}
 }
