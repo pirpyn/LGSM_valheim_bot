@@ -32,8 +32,7 @@ module.exports = {
 			inline: true
 		})
 		await interaction.editReply({
-			embeds: [PingEmbed],
-			ephemeral: true
+			embeds: [PingEmbed]
 		})
 	}
 }

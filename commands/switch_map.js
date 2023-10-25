@@ -47,8 +47,7 @@ module.exports = {
 			}
 		);
 		await interaction.editReply({
-			embeds: [Embed],
-			ephemeral: false
+			embeds: [Embed]
 		});
 	}
 }

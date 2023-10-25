@@ -37,8 +37,7 @@ async function SendCommand(lgsm_args, options = undefined){
 			}
 		);
 		await options.interaction.editReply({
-			embeds: [Embed],
-			ephemeral: true
+			embeds: [Embed]
 		});
 	}
 	return lgsm_output;
@@ -133,7 +132,7 @@ async function GetDetails(){
 		}
 		else{
 			// Removing section sepator (===...) and sensitive information
-			if ( line[0]=== '='
+			if ( line[0] === '='
 				|| line.includes("password")
 				|| line.includes("User")
 				|| line.includes("Location")

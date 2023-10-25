@@ -19,8 +19,7 @@ module.exports = {
 		})
 
 		const serverStatus = await gamedigGetStatus();
-		const Embed = new EmbedBuilder();
-		Embed.setAuthor({
+		const Embed = new EmbedBuilder().setAuthor({
 			name: `Status @${serverStatus.host}`,
 			iconURL: interaction.client.user.avatarURL()
 		});
@@ -48,8 +47,7 @@ module.exports = {
 			);
 		}
 		await interaction.editReply({
-			embeds: [Embed],
-			ephemeral: true
+			embeds: [Embed]
 		})
 	}
 }
