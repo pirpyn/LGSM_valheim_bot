@@ -94,6 +94,31 @@ async function lgsmGetDetails(){
 	return detailsDict;
 }
 
+function CheckInstall(){
+	try {
+		if (! (fs.statSync(lgsm_config).isDirectory()))
+			throw new Error;
+	} catch (err) {
+		throw new Error(`From config.json: lgsm_config ${lgsm_config} is not a dir`);
+	}
+	try {
+		if (! (fs.statSync(lgsm_bin).mode & fs.constants.S_IXUSR))
+			throw new Error;
+	} catch (err) {
+		throw new Error(`From config.json: lgsm_bin ${lgsm_bin} is not an executable file`);
+	}
+	const LGSM_instance_config = path.join(lgsm_config,lgsm_user)+'.cfg';
+	try {
+		if (! (fs.lstatSync(LGSM_instance_config).isSymbolicLink()))
+			throw new Error;
+	} catch (err) {
+		throw new Error(`From config.json: lgsm_user ${lgsm_user} already have an instance config file ${LGSM_instance_config} and its not a link`);
+	}
+	console.info('LGSM installation valid')
+}
+
+CheckInstall();
+
 module.exports = {
 	lgsmSendCommand,
 	lgsmGetDetails
