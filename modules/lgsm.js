@@ -118,7 +118,29 @@ worldname="${name}"
 	}
 }
 
-async function SwitchMaps(new_map, options = undefined){
+async function DeleteMap(map, options){
+	const map_file = path.join(lgsm_config,map) + ".cfg";
+	let output = "";
+	fs.access(map_file,(error) => {
+		if (!error){
+			const backup_file = map_file + "_deleted";
+			fs.access(backup_file,async (error) => {
+				if (error) {
+					execSync(`mv ${map_file} ${map_file}_deleted`);
+					output = `map ${map} supprimée`;
+					await editEmbeds(options,`Suppression de ${map}`,'Succes','Green');
+				}
+				else {
+					output = `Error: can't create backup ${backup_file}, already exists`;
+					await editEmbeds(options,`Suppression de ${map}`,'Echec','Red');
+				}
+			});
+		};
+	});
+	return output;
+}
+
+async function SwitchMaps(new_map, options){
 	const instance_file = path.join(lgsm_config,lgsm_user + ".cfg");
 	const map_file = path.join(lgsm_config,new_map) + ".cfg";
 	let output = "";
@@ -213,5 +235,6 @@ module.exports = {
 	GetDetails,
 	GetMaps,
 	SwitchMaps,
-	CreateMap
+	CreateMap,
+	DeleteMap,
 }
