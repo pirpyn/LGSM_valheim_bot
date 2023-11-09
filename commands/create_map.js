@@ -49,6 +49,7 @@ module.exports = {
 				value: output,
 			}
 		);
+		Embed.setColor('Orange');
 		await interaction.editReply({
 			embeds: [Embed]
 		});

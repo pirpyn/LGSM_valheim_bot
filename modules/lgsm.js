@@ -8,12 +8,45 @@ const path = require('path');
 
 function getOptions(options){
 	if (options === undefined){
-		options = {interaction: undefined};
+		options = {
+			interaction: undefined,
+			embeds: undefined
+		};
 	}
 	else {
 		if (!('interaction' in options)) options['interaction'] = undefined;
+		if (!('embeds' in options)) options['embeds'] = undefined;
 	}
 	return options;
+}
+
+async function editEmbeds(options,title,description,color){
+	if (options === undefined)
+		return;
+	options = getOptions(options);
+	if (options.interaction !== undefined)
+	{
+		let embeds=[]
+		if (options.embeds !== undefined){
+			const Embed = new EmbedBuilder();
+			Embed.addFields(
+				{
+					name: title,
+					value: description,
+				}
+			);
+			embeds=[Embed];
+		}
+		else {
+			embeds=options.embeds;
+		}
+		for (embed in embeds){
+			embed.setColor(color);
+		}
+		await options.interaction.editReply({
+			embeds: embeds
+		});
+	}
 }
 
 async function SendCommand(lgsm_args, options = undefined){
@@ -28,21 +61,12 @@ async function SendCommand(lgsm_args, options = undefined){
 		lgsm_output = "Error";
 		color = 'Red';
 	}
-	options = getOptions(options);
-	if (options.interaction !== undefined)
-	{
-		const Embed = new EmbedBuilder();
-		Embed.addFields(
-			{
-				name: `LGSM ${lgsm_args} output`,
-				value: "```"+os.EOL+lgsm_output+os.EOL+"```",
-			}
-		);
-		Embed.setColor(color);
-		await options.interaction.editReply({
-			embeds: [Embed]
-		});
-	}
+	await editEmbeds(
+		options,
+		`LGSM ${lgsm_args} output`,
+		"```"+os.EOL+lgsm_output+os.EOL+"```",
+		color
+	);
 	return lgsm_output;
 }
 
@@ -100,7 +124,8 @@ async function SwitchMaps(new_map, options = undefined){
 	let output = "";
 
 	output += await SendCommand("stop",options);
-	output += execSync(`rm ${instance_file} && ln -s ${map_file} ${instance_file}`);
+	execSync(`rm ${instance_file} && ln -s ${map_file} ${instance_file}`)
+	await editEmbeds(options,`Modification du script LGSM`,'success','Green');
 	output += await SendCommand("start",options);
 	return output;
 }
@@ -116,7 +141,7 @@ async function GetDetails(){
 		"Server Resource",
 		"Game Server Resource Usage",
 		"Valheim Server Details",
-		lgsm_user+" Script Details",
+		`${lgsm_user} Script Details`,
 		"Backups",
 		"Command-line Parameters",
 		"Ports"

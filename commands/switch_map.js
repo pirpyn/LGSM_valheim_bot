@@ -46,6 +46,7 @@ module.exports = {
 				value: "```"+os.EOL+status+os.EOL+"```",
 			}
 		);
+		Embed.setColor('Orange');
 		await interaction.editReply({
 			embeds: [Embed]
 		});
