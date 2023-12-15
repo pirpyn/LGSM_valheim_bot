@@ -27,7 +27,7 @@ async function editEmbeds(options,title,description,color){
 	if (options.interaction !== undefined)
 	{
 		let embeds=[]
-		if (options.embeds !== undefined){
+		if (options.embeds === undefined){
 			const Embed = new EmbedBuilder();
 			Embed.addFields(
 				{
@@ -40,7 +40,7 @@ async function editEmbeds(options,title,description,color){
 		else {
 			embeds=options.embeds;
 		}
-		for (embed in embeds){
+		for (embed of embeds){
 			embed.setColor(color);
 		}
 		await options.interaction.editReply({
@@ -231,6 +231,7 @@ function CheckInstall(){
 CheckInstall();
 
 module.exports = {
+	getOptions,
 	SendCommand,
 	GetDetails,
 	GetMaps,
